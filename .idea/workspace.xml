@@ -91,7 +91,7 @@
       <file leaf-file-name="testmacroman.txt" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/data/testmacroman.txt">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="1" column="34" selection-start="24" selection-end="24" vertical-scroll-proportion="0.029296875">
+            <state line="2" column="11" selection-start="27" selection-end="27" vertical-scroll-proportion="0.05859375">
               <folding />
             </state>
           </provider>
@@ -100,7 +100,7 @@
       <file leaf-file-name="XmlJava.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/tstMaven/src/main/java/XmlJava.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="34" column="81" selection-start="1069" selection-end="1139" vertical-scroll-proportion="0.0">
+            <state line="20" column="17" selection-start="575" selection-end="575" vertical-scroll-proportion="-2.76">
               <folding />
             </state>
           </provider>
@@ -134,8 +134,8 @@
         <option value="$PROJECT_DIR$/src/rss_ruby.rb" />
         <option value="$PROJECT_DIR$/data/test_file.xml" />
         <option value="$PROJECT_DIR$/src/xml_ruby.rb" />
-        <option value="$PROJECT_DIR$/tstMaven/src/main/java/XmlJava.java" />
         <option value="$PROJECT_DIR$/tstMaven/src/main/java/HashJava.java" />
+        <option value="$PROJECT_DIR$/tstMaven/src/main/java/XmlJava.java" />
         <option value="$PROJECT_DIR$/data/testmacroman.txt" />
       </list>
     </option>
@@ -223,7 +223,7 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.last.edited" value="SDKs" />
     <property name="GoToFile.includeJavaFiles" value="false" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="options.splitter.main.proportions" value="0.3" />
@@ -583,7 +583,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="22" width="1440" height="874" extended-state="0" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Data Sources" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -604,7 +604,7 @@
       <window_info id="JSON Formatter" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Dependency Viewer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24874191" sideWeight="0.7165563" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.28344372" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.28344372" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -705,11 +705,6 @@
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/data/test_file.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="381" column="12" selection-start="24178" selection-end="24178" vertical-scroll-proportion="0.20841683" />
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/.rvm/rubies/ruby-1.9.2-p136/lib/ruby/1.9.1/rexml/node.rb">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-1.3730469" />
@@ -727,7 +722,9 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/tstMaven/src/main/java/XmlJava.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="34" column="81" selection-start="1069" selection-end="1139" vertical-scroll-proportion="0.0" />
+        <state line="20" column="17" selection-start="575" selection-end="575" vertical-scroll-proportion="-2.76">
+          <folding />
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/tstMaven/src/main/java/HashJava.java">
@@ -739,9 +736,16 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/data/test_file.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="375" column="41" selection-start="23888" selection-end="23892" vertical-scroll-proportion="0.020876827">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/data/testmacroman.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="1" column="34" selection-start="24" selection-end="24" vertical-scroll-proportion="0.029296875">
+        <state line="2" column="11" selection-start="27" selection-end="27" vertical-scroll-proportion="0.05859375">
           <folding />
         </state>
       </provider>
@@ -804,6 +808,7 @@
             <option name="proportions">
               <list>
                 <option value="0.2" />
+                <option value="0.5" />
               </list>
             </option>
           </splitter-proportions>
