@@ -1,0 +1,48 @@
+<p>
+    After my recent post about the <a href="">java collection framework</a> I realized there was a nice gaping hole
+    in my current knowledge of the <a href="http://docs.oracle.com/javase/6/docs/api/java/util/Map.html">Map</a>
+    interface. I thought I share a brief overview of which implementations are best for what. First off, there are a gob
+    of runtime classes that implement this interface, but only a few General Purpose implementations. They Are:
+</p>
+<ul>
+    <li>ConcurrentHashMap</li>
+    <li>HashMap</li>
+    <li>Hashtable</li>
+</ul>
+
+    In addition to the above, there are some implementations that will let you influence the order that the keys can
+        be iterated.  These are:
+<ul>
+    <li>ConcurrentSkipListMap</li>
+    <li>LinkedHashMap</li>
+    <li>TreeMap</li>
+</ul>
+
+        Finally, there are some highly specific implementations that you probably aren't going to normally need
+        <ul>
+            <li>WeakHashMap</li>
+            <li>AbstractMap</li>
+            <li>IdentityHashMap</li>
+        </ul>
+
+        And a few more that are really designed to be used as general purpose map implementations, but rather
+        implement the interface as a convenience for folks who are using them.
+        <ul>
+            <li>Attributes</li>
+            <li>AuthProvider</li>
+            <li>EnumMap</li>
+            <li>PrinterStateReasons</li>
+            <li>Properties</li>
+            <li>Provider</li>
+            <li>RenderingHints</li>
+            <li>SimpleBindings</li>
+            <li>TabularDataSupport</li>
+            <li>UIDefaults</li>
+
+        </ul>
+
+
+
+AbstractMap, Attributes, AuthProvider, ConcurrentHashMap, ConcurrentSkipListMap, EnumMap, HashMap, Hashtable, IdentityHashMap,
+LinkedHashMap, PrinterStateReasons, Properties, Provider, RenderingHints, SimpleBindings, TabularDataSupport,
+TreeMap, UIDefaults, WeakHashMap

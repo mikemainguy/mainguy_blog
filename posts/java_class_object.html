@@ -1,0 +1,85 @@
+<p>
+A great many people are competent java developers, but have only a vague understanding of the
+    difference between a "public static method", "public method", and the difference between a class and an object.
+    As this was confusing to me at first, I thought I would give a quick overview.
+</p>
+<p>
+A <a href="http://docs.oracle.com/javase/tutorial/information/glossary.html#class">class</a> defines a template
+    for what data and operations are available when you tell the JVM to create an object.
+</p>
+<p>So, for example:
+</p>
+<pre>
+public class BlogPost {
+    public String text = "";
+    public static BlogPost latest;
+    public static BlogPost create(String input) {
+        latest = new BlogPost();
+        latest.text = input;
+        return latest;
+    }
+    public int getTextSize() {
+       return text.length();
+    }
+}
+</pre>
+<p>
+    When you compile this class, it is creating a file that the java runtime can later use to enable programmers to load
+    an <a href="http://docs.oracle.com/javase/tutorial/information/glossary.html#object">object</a> into memory that
+    has a single attribute called "text" which is a reference to another object with a class of String.  Additionally,
+    the class itself has an attribute called latest that is a reference to an object with a class of BlogPost,
+    a method called create that accepts a reference to a string, creates a new Blogpost, stores it to the "latest"
+    class variable, set's the text attribute on the "latest" class variable and subsequently returns the reference to
+    "latest".  In addition, there is an
+    <a href="http://docs.oracle.com/javase/tutorial/information/glossary.html#instance%method">instance method</a>
+    called "getTextSize()" that returns the result of the instance method "length" for the "text"
+    <a href="http://docs.oracle.com/javase/tutorial/information/glossary.html#instance%variable">instance variable</a>
+    of the object.
+</p>
+
+        <p>So far, if you've done any amount of java programming, this shouldn't be too shocking or eye opening.
+        However, there are some subtle and not-no-subtle nuances that are at play here.  First and most commonly confused
+        is that static methods cannot get access to instance variables.</p>
+<p>Why?</p>
+        <p>Let's talk through this.... when java is running, class definitions are broken into two pieces.  The data
+        piece and the method piece.  The data piece is independent for every new instance, the method piece is identical
+        for every instance created and unique for the particular class.  The method you can call on a particular class are unique
+            to the CLASS, not the instance of the class.  In addition, static variables on the class are also unique to
+            the CLASS, not the instance.
+
+        So, for example, the method area for our "BlogPost" has two method references... one for "create"
+        which expects to receive a String reference and will return a BlogPost reference, and one for
+        getTextSize, which expects to receive a reference to a BlogPost instance an will return the integer value of
+        the text field reference stored on the BlogPost reference it received
+            </p>
+        <p>When we are in the create method, there is no BlogPost instance available to look at... since the "length" method
+        and the "text" instance variable both need a copy of a BlogPost object loaded into memory ... there's no way to
+        access them.</p>
+
+        <p>Put another way,
+        When you define an instance method, even though you don't tell the JVM, it automatically knows that it MUST
+        have a reference to it's defining class already loaded into memory (BlogPost) in order to perform it's operations.</p>
+
+        <p>This gets to the heart of what I think a lot of people don't get about java (not ALL languages/VMs do it this way,
+        but java DOES).  Another way to code the getTextSize() method above would be to do this:
+
+        </p>
+<pre>
+    public static int getTextSize(BlogPost myPost) {
+        return myPost.text.length();
+    }
+</pre>
+        <p>Some people would think that this method is more effecient because you don't "waste" memory having all kinds
+        of copies of the function loaded into memory.  The fact is, java is not that naive, ALL methods are effectively
+        singletons and there will only ever be one copy of the method implementation in memory.  When you call instance
+        methods, you're simply telling java that you want to make sure this method ALWAYS REQUIRES an instance of
+        my class as an implicit parameter.  In addition, the language has a nice way of defining this were you don't
+            have to explicitly pass the instance as a parameter.  There really is no difference at runtime between
+            the memory consumption of the two implementations.</p>
+        <p>
+            For a little more discussion, take a look at
+            <a href="http://stackoverflow.com/questions/5031387/does-an-instance-method-get-loaded-into-memory-per-object-or-per-class">
+                Stack Overflow
+            </a>.  Hopefully this will help clarify things for some folks.
+
+        </p>

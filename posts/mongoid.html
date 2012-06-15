@@ -1,0 +1,149 @@
+<p>
+I recently tried to set up mongoid with a free mongohq account on heroku... This info is accurate as of 28 Feb, 2012.
+</p>
+        <h2>For the impatient (I just want to make it work)</h2>
+<p>mongoid.yml</p>
+<pre class='code'>
+production:
+  uri: <%= ENV['MONGOLAB_URI'] %>
+</pre>
+<p>Gemfile</p>
+<pre class='code'>
+gem 'bson', '1.3.1'
+gem 'bson_ext', '1.3.1'
+gem 'mongoid', '2.0.2'
+</pre>
+
+        <h2>For those who want more detail (I have a similar problem, how do I troubleshoot</h2>
+        <p>To determine heroku environment variables, do this:</p>
+<pre class='code'>
+$ heroku config
+
+</pre>
+and the results should contain a line like what follows:
+<pre class='code'>
+...
+MONGOLAB_URI        => mongodb://heroku_app928349384:lkfjgoierheourhgoeurhgoeuh@ds031087.mongolab.com:31087/heroku_appapp928349384
+...
+</pre>
+<p>
+The important thing to note is what the left hand line says.  Around the internet (like <a href='http://stackoverflow.com/questions/2784417/heroku-mongohq-and-mongoid-mongoconnectionfailure'>here on SO</a> they will incorrectly name the ENV as MONGOHQ_URI.  So then update mongoid.yml like this:
+
+</p>
+<p>
+Additionally, it appears that different versions of mongoid only work with certain versions of mongodb.  I started by
+        digging around on google to find versions that seemed to be compatible.</p>
+
+Stack trace with wrong URI:
+<pre class='code'>
+production:
+  uri: <%= ENV['MONGOLAB_URI'] %>
+</pre>
+<p>Will yield something like</p>
+<pre class='code'>
+2012-02-28T12:49:46+00:00 app[web.1]: /app/.bundle/gems/ruby/1.9.1/gems/mongo-1.3.1/lib/mongo/connection.rb:518:in `connect': Failed to connect to a master node at localhost:27017 (Mongo::ConnectionFailure)
+2012-02-28T12:49:46+00:00 app[web.1]: 	from /app/.bundle/gems/ruby/1.9.1/gems/mongo-1.3.1/lib/mongo/connection.rb:656:in `setup'
+2012-02-28T12:49:46+00:00 app[web.1]: 	from /app/.bundle/gems/ruby/1.9.1/gems/mongo-1.3.1/lib/mongo/connection.rb:101:in `initialize'
+2012-02-28T12:49:46+00:00 app[web.1]: 	from /app/.bundle/gems/ruby/1.9.1/gems/mongo-1.3.1/lib/mongo/connection.rb:152:in `new'
+2012-02-28T12:49:46+00:00 app[web.1]: 	from /app/.bundle/gems/ruby/1.9.1/gems/mongo-1.3.1/lib/mongo/connection.rb:152:in `from_uri'
+2012-02-28T12:49:46+00:00 app[web.1]: 	from /app/.bundle/gems/ruby/1.9.1/gems/mongoid-2.0.2/lib/mongoid/config/database.rb:86:in `master'
+2012-02-28T12:49:46+00:00 app[web.1]: 	from /app/.bundle/gems/ruby/1.9.1/gems/mongoid-2.0.2/lib/mongoid/config/database.rb:19:in `configure'
+2012-02-28T12:49:46+00:00 app[web.1]: 	from /app/.bundle/gems/ruby/1.9.1/gems/mongoid-2.0.2/lib/mongoid/config.rb:114:in `from_hash'
+2012-02-28T12:49:46+00:00 app[web.1]: 	from /app/.bundle/gems/ruby/1.9.1/gems/mongoid-2.0.2/lib/mongoid/config.rb:342:in `configure_databases'
+2012-02-28T12:49:46+00:00 app[web.1]: 	from (eval):2:in `from_hash'
+2012-02-28T12:49:46+00:00 app[web.1]: 	from /app/.bundle/gems/ruby/1.9.1/gems/mongoid-2.0.2/lib/mongoid/railtie.rb:64:in `block in &lt;class:Railtie&gt;'
+2012-02-28T12:49:46+00:00 app[web.1]: 	from /app/.bundle/gems/ruby/1.9.1/gems/railties-3.0.8/lib/rails/initializable.rb:25:in `instance_exec'
+2012-02-28T12:49:46+00:00 app[web.1]: 	from /app/.bundle/gems/ruby/1.9.1/gems/railties-3.0.8/lib/rails/initializable.rb:25:in `run'
+2012-02-28T12:49:46+00:00 app[web.1]: 	from /app/.bundle/gems/ruby/1.9.1/gems/railties-3.0.8/lib/rails/initializable.rb:50:in `block in run_initializers'
+2012-02-28T12:49:46+00:00 app[web.1]: 	from /app/.bundle/gems/ruby/1.9.1/gems/railties-3.0.8/lib/rails/initializable.rb:49:in `run_initializers'
+2012-02-28T12:49:46+00:00 app[web.1]: 	from /app/.bundle/gems/ruby/1.9.1/gems/railties-3.0.8/lib/rails/initializable.rb:49:in `each'
+2012-02-28T12:49:46+00:00 app[web.1]: 	from /app/.bundle/gems/ruby/1.9.1/gems/railties-3.0.8/lib/rails/application.rb:134:in `initialize!'
+2012-02-28T12:49:46+00:00 app[web.1]: 	from /app/.bundle/gems/ruby/1.9.1/gems/railties-3.0.8/lib/rails/application.rb:77:in `method_missing'
+2012-02-28T12:49:46+00:00 app[web.1]: 	from /app/config/environment.rb:5:in `&lt;top (required)&gt;'
+2012-02-28T12:49:46+00:00 app[web.1]: 	from &lt;internal:lib/rubygems/custom_require&gt;:29:in `require'
+2012-02-28T12:49:46+00:00 app[web.1]: 	from &lt;internal:lib/rubygems/custom_require&gt;:29:in `require'
+2012-02-28T12:49:46+00:00 app[web.1]: 	from config.ru:3:in `block (3 levels) in &lt;main&gt;'
+2012-02-28T12:49:46+00:00 app[web.1]: 	from /home/heroku_rack/heroku.ru:23:in `eval'
+2012-02-28T12:49:46+00:00 app[web.1]: 	from /home/heroku_rack/heroku.ru:23:in `block (3 levels) in &lt;main&gt;'
+2012-02-28T12:49:46+00:00 app[web.1]: 	from /app/.bundle/gems/ruby/1.9.1/gems/rack-1.2.5/lib/rack/builder.rb:46:in `instance_eval'
+2012-02-28T12:49:46+00:00 app[web.1]: 	from /app/.bundle/gems/ruby/1.9.1/gems/rack-1.2.5/lib/rack/builder.rb:46:in `initialize'
+2012-02-28T12:49:46+00:00 app[web.1]: 	from /app/.bundle/gems/ruby/1.9.1/gems/rack-1.2.5/lib/rack/builder.rb:63:in `new'
+2012-02-28T12:49:46+00:00 app[web.1]: 	from /app/.bundle/gems/ruby/1.9.1/gems/rack-1.2.5/lib/rack/builder.rb:63:in `map'
+2012-02-28T12:49:46+00:00 app[web.1]: 	from /app/.bundle/gems/ruby/1.9.1/gems/rack-1.2.5/lib/rack/builder.rb:46:in `initialize'
+2012-02-28T12:49:46+00:00 app[web.1]: 	from /home/heroku_rack/heroku.ru:18:in `block (2 levels) in &lt;main&gt;'
+2012-02-28T12:49:46+00:00 app[web.1]: 	from /app/.bundle/gems/ruby/1.9.1/gems/rack-1.2.5/lib/rack/builder.rb:46:in `instance_eval'
+2012-02-28T12:49:46+00:00 app[web.1]: 	from /home/heroku_rack/heroku.ru:11:in `block in &lt;main&gt;'
+2012-02-28T12:49:46+00:00 app[web.1]: 	from /home/heroku_rack/heroku.ru:11:in `new'
+2012-02-28T12:49:46+00:00 app[web.1]: 	from /app/.bundle/gems/ruby/1.9.1/gems/rack-1.2.5/lib/rack/builder.rb:46:in `instance_eval'
+2012-02-28T12:49:46+00:00 app[web.1]: 	from /app/.bundle/gems/ruby/1.9.1/gems/rack-1.2.5/lib/rack/builder.rb:46:in `initialize'
+2012-02-28T12:49:46+00:00 app[web.1]: 	from /home/heroku_rack/heroku.ru:1:in `new'
+2012-02-28T12:49:46+00:00 app[web.1]: 	from /home/heroku_rack/heroku.ru:1:in `&lt;main&gt;'
+2012-02-28T12:49:46+00:00 app[web.1]: 	from /usr/ruby1.9.2/lib/ruby/gems/1.9.1/gems/thin-1.2.6/lib/rack/adapter/loader.rb:36:in `eval'
+2012-02-28T12:49:46+00:00 app[web.1]: 	from /usr/ruby1.9.2/lib/ruby/gems/1.9.1/gems/thin-1.2.6/lib/rack/adapter/loader.rb:36:in `load'
+2012-02-28T12:49:46+00:00 app[web.1]: 	from /usr/ruby1.9.2/lib/ruby/gems/1.9.1/gems/thin-1.2.6/lib/thin/controllers/controller.rb:175:in `load_rackup_config'
+2012-02-28T12:49:46+00:00 app[web.1]: 	from /usr/ruby1.9.2/lib/ruby/gems/1.9.1/gems/thin-1.2.6/lib/thin/controllers/controller.rb:65:in `start'
+2012-02-28T12:49:46+00:00 app[web.1]: 	from /usr/ruby1.9.2/lib/ruby/gems/1.9.1/gems/thin-1.2.6/lib/thin/runner.rb:177:in `run_command'
+2012-02-28T12:49:46+00:00 app[web.1]: 	from /usr/ruby1.9.2/lib/ruby/gems/1.9.1/gems/thin-1.2.6/lib/thin/runner.
+
+2012-02-28T12:49:46+00:00 app[web.1]: 	from /usr/ruby1.9.2/lib/ruby/gems/1.9.1/gems/thin-1.2.6/bin/thin:6:in `&lt;top (required)&gt;'
+2012-02-28T12:49:46+00:00 app[web.1]: 	from /usr/ruby1.9.2/bin/thin:19:in `load'
+2012-02-28T12:49:46+00:00 app[web.1]: 	from /usr/ruby1.9.2/bin/thin:19:in `&lt;main&gt;'
+2012-02-28T12:49:47+00:00 heroku[web.1]: Process exited with status 1
+2012-02-28T12:49:47+00:00 heroku[web.1]: State changed from starting to crashed
+
+</pre>
+
+<p>
+Stack trace with wrong version of mongo/mongoid/bson :
+</p>
+<pre class='code'>
+Starting process with command `thin -p 4644 -e production -R /home/heroku_rack/heroku.ru start`
+2012-02-27T22:50:46+00:00 app[web.1]: /app/app/models/expression.rb:2:in `&lt;class:Expression&gt;': uninitialized constant Expression::Mongoid (NameError)
+2012-02-27T22:50:46+00:00 app[web.1]: 	from /app/app/models/expression.rb:1:in `&lt;top (required)&gt;'
+2012-02-27T22:50:46+00:00 app[web.1]: 	from /app/.bundle/gems/ruby/1.9.1/gems/railties-3.0.8/lib/rails/engine.rb:138:in `block (2 levels) in eager_load!'
+2012-02-27T22:50:46+00:00 app[web.1]: 	from /app/.bundle/gems/ruby/1.9.1/gems/railties-3.0.8/lib/rails/engine.rb:137:in `each'
+2012-02-27T22:50:46+00:00 app[web.1]: 	from /app/.bundle/gems/ruby/1.9.1/gems/railties-3.0.8/lib/rails/engine.rb:137:in `block in eager_load!'
+2012-02-27T22:50:46+00:00 app[web.1]: 	from /app/.bundle/gems/ruby/1.9.1/gems/railties-3.0.8/lib/rails/engine.rb:135:in `eager_load!'
+2012-02-27T22:50:46+00:00 app[web.1]: 	from /app/.bundle/gems/ruby/1.9.1/gems/railties-3.0.8/lib/rails/engine.rb:135:in `each'
+2012-02-27T22:50:46+00:00 app[web.1]: 	from /app/.bundle/gems/ruby/1.9.1/gems/railties-3.0.8/lib/rails/application.rb:108:in `eager_load!'
+2012-02-27T22:50:46+00:00 app[web.1]: 	from /app/.bundle/gems/ruby/1.9.1/gems/railties-3.0.8/lib/rails/application/finisher.rb:41:in `block in &lt;module:Finisher&gt;'
+2012-02-27T22:50:46+00:00 app[web.1]: 	from /app/.bundle/gems/ruby/1.9.1/gems/railties-3.0.8/lib/rails/initializable.rb:25:in `instance_exec'
+2012-02-27T22:50:46+00:00 app[web.1]: 	from /app/.bundle/gems/ruby/1.9.1/gems/railties-3.0.8/lib/rails/initializable.rb:25:in `run'
+2012-02-27T22:50:46+00:00 app[web.1]: 	from /app/.bundle/gems/ruby/1.9.1/gems/railties-3.0.8/lib/rails/initializable.rb:50:in `block in run_initializers'
+2012-02-27T22:50:46+00:00 app[web.1]: 	from /app/.bundle/gems/ruby/1.9.1/gems/railties-3.0.8/lib/rails/initializable.rb:49:in `each'
+2012-02-27T22:50:46+00:00 app[web.1]: 	from /app/.bundle/gems/ruby/1.9.1/gems/railties-3.0.8/lib/rails/initializable.rb:49:in `run_initializers'
+2012-02-27T22:50:46+00:00 app[web.1]: 	from /app/.bundle/gems/ruby/1.9.1/gems/railties-3.0.8/lib/rails/application.rb:134:in `initialize!'
+2012-02-27T22:50:46+00:00 app[web.1]: 	from /app/.bundle/gems/ruby/1.9.1/gems/railties-3.0.8/lib/rails/application.rb:77:in `method_missing'
+2012-02-27T22:50:46+00:00 app[web.1]: 	from /app/config/environment.rb:5:in `&lt;top (required)&gt;'
+2012-02-27T22:50:46+00:00 app[web.1]: 	from &lt;internal:lib/rubygems/custom_require&gt;:29:in `require'
+2012-02-27T22:50:46+00:00 app[web.1]: 	from /home/heroku_rack/heroku.ru:23:in `eval'
+2012-02-27T22:50:46+00:00 app[web.1]: 	from &lt;internal:lib/rubygems/custom_require&gt;:29:in `require'
+2012-02-27T22:50:46+00:00 app[web.1]: 	from config.ru:3:in `block (3 levels) in &lt;main&gt;'
+2012-02-27T22:50:46+00:00 app[web.1]: 	from /home/heroku_rack/heroku.ru:23:in `block (3 levels) in &lt;main&gt;'
+2012-02-27T22:50:46+00:00 app[web.1]: 	from /app/.bundle/gems/ruby/1.9.1/gems/rack-1.2.5/lib/rack/builder.rb:46:in `instance_eval'
+2012-02-27T22:50:46+00:00 app[web.1]: 	from /app/.bundle/gems/ruby/1.9.1/gems/rack-1.2.5/lib/rack/builder.rb:46:in `initialize'
+2012-02-27T22:50:46+00:00 app[web.1]: 	from /home/heroku_rack/heroku.ru:18:in `block (2 levels) in &lt;main&gt;'
+2012-02-27T22:50:46+00:00 app[web.1]: 	from /app/.bundle/gems/ruby/1.9.1/gems/rack-1.2.5/lib/rack/builder.rb:46:in `initialize'
+2012-02-27T22:50:46+00:00 app[web.1]: 	from /app/.bundle/gems/ruby/1.9.1/gems/rack-1.2.5/lib/rack/builder.rb:63:in `new'
+2012-02-27T22:50:46+00:00 app[web.1]: 	from /app/.bundle/gems/ruby/1.9.1/gems/rack-1.2.5/lib/rack/builder.rb:63:in `map'
+2012-02-27T22:50:46+00:00 app[web.1]: 	from /app/.bundle/gems/ruby/1.9.1/gems/rack-1.2.5/lib/rack/builder.rb:46:in `instance_eval'
+2012-02-27T22:50:46+00:00 app[web.1]: 	from /home/heroku_rack/heroku.ru:11:in `new'
+2012-02-27T22:50:46+00:00 app[web.1]: 	from /home/heroku_rack/heroku.ru:11:in `block in &lt;main&gt;'
+2012-02-27T22:50:46+00:00 app[web.1]: 	from /app/.bundle/gems/ruby/1.9.1/gems/rack-1.2.5/lib/rack/builder.rb:46:in `instance_eval'
+2012-02-27T22:50:46+00:00 app[web.1]: 	from /app/.bundle/gems/ruby/1.9.1/gems/rack-1.2.5/lib/rack/builder.rb:46:in `initialize'
+2012-02-27T22:50:46+00:00 app[web.1]: 	from /home/heroku_rack/heroku.ru:1:in `new'
+2012-02-27T22:50:46+00:00 app[web.1]: 	from /home/heroku_rack/heroku.ru:1:in `&lt;main&gt;'
+2012-02-27T22:50:46+00:00 app[web.1]: 	from /usr/ruby1.9.2/lib/ruby/gems/1.9.1/gems/thin-1.2.6/lib/rack/adapter/loader.rb:36:in `eval'
+2012-02-27T22:50:46+00:00 app[web.1]: 	from /usr/ruby1.9.2/lib/ruby/gems/1.9.1/gems/thin-1.2.6/lib/thin/controllers/controller.rb:175:in `load_rackup_config'
+2012-02-27T22:50:46+00:00 app[web.1]: 	from /usr/ruby1.9.2/lib/ruby/gems/1.9.1/gems/thin-1.2.6/lib/rack/adapter/loader.rb:36:in `load'
+2012-02-27T22:50:46+00:00 app[web.1]: 	from /usr/ruby1.9.2/lib/ruby/gems/1.9.1/gems/thin-1.2.6/lib/thin/controllers/controller.rb:65:in `start'
+2012-02-27T22:50:46+00:00 app[web.1]: 	from /usr/ruby1.9.2/lib/ruby/gems/1.9.1/gems/thin-1.2.6/lib/thin/runner.rb:177:in `run_command'
+2012-02-27T22:50:46+00:00 app[web.1]: 	from /usr/ruby1.9.2/lib/ruby/gems/1.9.1/gems/thin-1.2.6/bin/thin:6:in `&lt;top (required)&gt;'
+2012-02-27T22:50:46+00:00 app[web.1]: 	from /usr/ruby1.9.2/lib/ruby/gems/1.9.1/gems/thin-1.2.6/lib/thin/runner.rb:143:in `run!'
+2012-02-27T22:50:46+00:00 app[web.1]: 	from /usr/ruby1.9.2/bin/thin:19:in `load'
+2012-02-27T22:50:46+00:00 app[web.1]: 	from /usr/ruby1.9.2/bin/thin:19:in `&lt;main&gt;'
+2012-02-27T22:50:47+00:00 heroku[web.1]: Process exited with status 1
+2012-02-27T22:50:47+00:00 heroku[web.1]: State changed from starting to crashed
+2012-02-27T22:50:48+00:00 heroku[router]: Error H10 (App crashed) -&gt; POST newsfilter.heroku.com/_heroku/console dyno= queue= wait= service= status=503 bytes=
+</pre>
+<p>

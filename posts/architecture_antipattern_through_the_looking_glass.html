@@ -1,0 +1,29 @@
+<p>
+    An <a href="http://en.wikipedia.org/wiki/Anti-pattern">anti-pattern</a> is a commonly occurring
+    pattern that is ineffective.
+</p>
+<p>
+    I've identified an architectural anti-pattern I'm calling "Through the Looking Glass". This is when a system
+    is broken into pieces or layers, but the pieces are cut perpendicular
+    to the direction that the team and the business require.  A common example is when a set of screens used to
+    access a database system is split system into "front end" and "back end" components.
+</p>
+<p>
+    This "front end" and "back end" split ONLY makes sense if the back end can identify thier required interfaces
+    before the front end is designed. If the "back end" requirements are being driven by the "front end"
+    screens and/or systems, then this split is either #1 wrong or, at a minimum #2 premature.  Most often, new systems
+    need a front end to identify  APIs that need to be used... it's more economical to build the system
+    in such a manner that a front end change can quickly be migrated to the "back-end" (like rails) and
+    enable using functioning software to be delivered early.   The prudent thing is to then refactor
+    and cut the system into pieces when necessary (or ideally just before necessary :).
+</p>
+<p>
+    I personally believe this problem is primarily caused by two things: over specialization and over engineering.
+    Over specialization
+    can be recognized when, for example, database administrators have no idea how
+    the users will use or interact with the data. This can be combated by mixing DBAs into project teams as contributing
+    members, not just people who sit around and wait for change requests to generate tables. Over engineering
+    can be identified by looking for decorations inside the system design that are "for future growth" or
+    other vague non-functional requirements. This can be solved by repeatedly asking the question
+    "Are we actually gonna need this?"
+</p>
