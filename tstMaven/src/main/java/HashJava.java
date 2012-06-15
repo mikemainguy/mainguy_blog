@@ -3,7 +3,7 @@ import java.util.Map;
 
 /**
  * Created by IntelliJ IDEA.
- * User: michaelmainguy
+ * blog.mainguy.User: michaelmainguy
  * Date: 6/2/11
  * Time: 8:29 AM
  * To change this template use File | Settings | File Templates.
@@ -14,7 +14,7 @@ public class HashJava {
         long start = System.currentTimeMillis();
 
         for (int i = 0; i< 1000; i++) {
-            m.put(i.toString(), i.toString() + 1000);
+            m.put(i, i + 1000);
         }
         System.out.println(System.currentTimeMillis()- start);
     }

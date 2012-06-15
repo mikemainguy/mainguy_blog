@@ -8,7 +8,7 @@ import java.io.FileNotFoundException;
 
 /**
  * Created by IntelliJ IDEA.
- * User: michaelmainguy
+ * blog.mainguy.User: michaelmainguy
  * Date: 5/11/11
  * Time: 5:46 PM
  * To change this template use File | Settings | File Templates.

@@ -2,8 +2,10 @@
 <module type="JAVA_MODULE" version="4">
   <component name="FacetManager">
     <facet type="JRUBY" name="JRuby">
-      <configuration number="0">
-        <JRUBY_FACET_CONFIG_ID NAME="JRUBY_SDK_NAME" VALUE="JRuby SDK 1.5.6-p249 [global] (1)" />
+      <configuration>
+        <JRUBY_FACET_CONFIG_ID NAME="JRUBY_SDK_NAME" VALUE="" />
+        <LOAD_PATH number="0" />
+        <I18N_FOLDERS number="0" />
       </configuration>
     </facet>
   </component>
@@ -16,6 +18,7 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="Unnamed" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="JRuby SDK 1.5.6-p249 [global] (1) facet library" level="application" />
+    <orderEntry type="library" scope="RUNTIME" name="groovy-1.8.6" level="project" />
   </component>
 </module>
 
